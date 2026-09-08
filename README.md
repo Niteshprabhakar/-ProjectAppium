@@ -70,3 +70,24 @@ mvn test -Ddevice.name="iPhone 15" -Dplatform.version=17
 `device.name`, `platform.version`, `bstack.hub.url`, `bstack.build.name`, and
 any `config.properties` key can be overridden on the command line without
 editing files.
+
+## CI (Bitbucket Pipelines)
+
+Runs as a **manually-triggered custom pipeline** (`mobile-login-smoke`), not on
+every push - each run costs BrowserStack App Automate minutes, and running it
+automatically on every commit would burn through a free-trial plan quickly.
+No macOS runner is needed (unlike a local-Appium/Simulator setup) since
+everything executes against BrowserStack's real devices.
+
+One-time setup: add these as **secured** repository variables (Repository
+settings > Pipelines > Repository variables in Bitbucket) -
+`BROWSERSTACK_USERNAME`, `BROWSERSTACK_ACCESS_KEY`, `HA_TEST_PASSWORD`,
+`HA_TEST_MPIN`, `RA_TEST_PASSWORD`, `RA_TEST_MPIN`. Never put these in
+`bitbucket-pipelines.yml` or `config.properties`.
+
+To run it: Bitbucket repo > Pipelines > Run pipeline > select the
+`mobile-login-smoke` custom pipeline.
+
+Once the team is on a paid BrowserStack plan, this can be promoted to run
+automatically by moving the step from `custom.mobile-login-smoke` into
+`pipelines.default` in `bitbucket-pipelines.yml`.
