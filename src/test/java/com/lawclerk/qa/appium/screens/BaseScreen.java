@@ -43,11 +43,26 @@ public abstract class BaseScreen {
         return find(locator).getText();
     }
 
+    /**
+     * {@code find} already waits for the element to report visible, so this only needs to know
+     * whether that wait succeeded - re-checking {@code isDisplayed()} on the returned element is
+     * a second round-trip that can race a React Native re-render and throw a stale-element error.
+     */
     protected boolean isVisible(By locator) {
         try {
-            return find(locator).isDisplayed();
+            find(locator);
+            return true;
         } catch (TimeoutException e) {
             return false;
+        }
+    }
+
+    /** Clicks the element if it shows up within {@code timeout}; otherwise does nothing. */
+    protected void clickIfPresent(By locator, Duration timeout) {
+        try {
+            new WebDriverWait(driver, timeout).until(ExpectedConditions.elementToBeClickable(locator)).click();
+        } catch (TimeoutException ignored) {
+            // nothing to dismiss
         }
     }
 }

@@ -6,7 +6,6 @@ import com.lawclerk.qa.appium.config.ConfigReader;
 import com.lawclerk.qa.appium.screens.ha.HaDashboardScreen;
 import com.lawclerk.qa.appium.screens.ha.HaLoginScreen;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag("mobile")
 @Tag("ios")
 @Tag("ha")
-@Disabled("Pending HA app build, BrowserStack app_url, and confirmed accessibility IDs - see LAW-881")
 class HaLoginTest extends BaseTest {
 
     private HaLoginScreen loginScreen;
@@ -43,6 +41,8 @@ class HaLoginTest extends BaseTest {
         HaDashboardScreen dashboard = loginScreen
                 .enterEmail(ConfigReader.getTestUserEmail(AppTarget.HA))
                 .enterPassword(ConfigReader.getTestUserPassword(AppTarget.HA))
+                .submit()
+                .enterMpin(ConfigReader.getTestUserMpin(AppTarget.HA))
                 .submit();
 
         assertTrue(dashboard.isLoaded(), "Expected the HA dashboard to load after a valid login");

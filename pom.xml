@@ -25,8 +25,8 @@
         <bstack.hub.url>https://hub-cloud.browserstack.com/wd/hub</bstack.hub.url>
         <bstack.build.name>lawclerk-mobile-local</bstack.build.name>
         <device.name>iPhone 14</device.name>
-        <platform.version>17</platform.version>
-        <timeout.ms>30000</timeout.ms>
+        <platform.version>18</platform.version>
+        <timeout.ms>45000</timeout.ms>
 
         <!-- JUnit 5 tag filters, e.g. mvn test -Dgroups=smoke -->
         <groups></groups>

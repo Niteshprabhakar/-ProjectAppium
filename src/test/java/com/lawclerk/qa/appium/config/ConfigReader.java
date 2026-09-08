@@ -87,7 +87,21 @@ public final class ConfigReader {
         return get("test." + target.key() + ".user.email", "qa." + target.key() + ".user@example.com");
     }
 
+    /** Reads from {@code <HA|RA>_TEST_PASSWORD} first - real test-account passwords are never committed. */
     public static String getTestUserPassword(AppTarget target) {
-        return get("test." + target.key() + ".user.password", "ChangeMe123!");
+        return getSecret(target, "TEST_PASSWORD", "test." + target.key() + ".user.password", "ChangeMe123!");
+    }
+
+    /** Reads from {@code <HA|RA>_TEST_MPIN} first - real MPINs are never committed. */
+    public static String getTestUserMpin(AppTarget target) {
+        return getSecret(target, "TEST_MPIN", "test." + target.key() + ".user.mpin", "0000");
+    }
+
+    private static String getSecret(AppTarget target, String envSuffix, String propertyKey, String defaultValue) {
+        String envValue = System.getenv(target.name() + "_" + envSuffix);
+        if (envValue != null && !envValue.isBlank()) {
+            return envValue;
+        }
+        return get(propertyKey, defaultValue);
     }
 }

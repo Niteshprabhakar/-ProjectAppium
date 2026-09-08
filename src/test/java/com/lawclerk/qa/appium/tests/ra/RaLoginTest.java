@@ -6,7 +6,6 @@ import com.lawclerk.qa.appium.config.ConfigReader;
 import com.lawclerk.qa.appium.screens.ra.RaDashboardScreen;
 import com.lawclerk.qa.appium.screens.ra.RaLoginScreen;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag("mobile")
 @Tag("ios")
 @Tag("ra")
-@Disabled("Pending RA app build, BrowserStack app_url, and confirmed accessibility IDs - see LAW-881")
 class RaLoginTest extends BaseTest {
 
     private RaLoginScreen loginScreen;
@@ -43,6 +41,8 @@ class RaLoginTest extends BaseTest {
         RaDashboardScreen dashboard = loginScreen
                 .enterEmail(ConfigReader.getTestUserEmail(AppTarget.RA))
                 .enterPassword(ConfigReader.getTestUserPassword(AppTarget.RA))
+                .submit()
+                .enterMpin(ConfigReader.getTestUserMpin(AppTarget.RA))
                 .submit();
 
         assertTrue(dashboard.isLoaded(), "Expected the RA dashboard to load after a valid login");
