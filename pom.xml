@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lawclerk</groupId>
+    <artifactId>lawclerk-qa-appium</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>LAWCLERK QA Mobile Automation Framework</name>
+    <description>Appium + Java + JUnit 5 iOS automation for the HA and RA mobile apps, run against BrowserStack App Automate.</description>
+
+    <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <appium.version>10.1.1</appium.version>
+        <junit.version>6.0.3</junit.version>
+        <compiler-plugin.version>3.15.0</compiler-plugin.version>
+        <surefire.version>3.5.4</surefire.version>
+
+        <!-- Overridable from the CLI, e.g. mvn test -Ddevice.name="iPhone 15" -->
+        <bstack.hub.url>https://hub-cloud.browserstack.com/wd/hub</bstack.hub.url>
+        <bstack.build.name>lawclerk-mobile-local</bstack.build.name>
+        <device.name>iPhone 14</device.name>
+        <platform.version>17</platform.version>
+        <timeout.ms>30000</timeout.ms>
+
+        <!-- JUnit 5 tag filters, e.g. mvn test -Dgroups=smoke -->
+        <groups></groups>
+        <excludedGroups></excludedGroups>
+    </properties>
+
+    <dependencies>
+        <!-- Pulls in a compatible Selenium (WebDriverWait, By, ExpectedConditions, ...) transitively -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>${appium.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <groups>${groups}</groups>
+                    <excludedGroups>${excludedGroups}</excludedGroups>
+                    <systemPropertyVariables>
+                        <bstack.hub.url>${bstack.hub.url}</bstack.hub.url>
+                        <bstack.build.name>${bstack.build.name}</bstack.build.name>
+                        <device.name>${device.name}</device.name>
+                        <platform.version>${platform.version}</platform.version>
+                        <timeout.ms>${timeout.ms}</timeout.ms>
+                    </systemPropertyVariables>
+                    <!-- BROWSERSTACK_USERNAME / BROWSERSTACK_ACCESS_KEY are read from the
+                         environment by ConfigReader; surefire forks inherit them automatically,
+                         so they are deliberately not listed here (never put secrets in the pom). -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
