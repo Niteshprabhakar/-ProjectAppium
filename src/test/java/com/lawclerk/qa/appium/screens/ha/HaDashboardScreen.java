@@ -20,4 +20,15 @@ public class HaDashboardScreen extends BaseScreen {
     public boolean isLoaded() {
         return isVisible(DASHBOARD_ROOT);
     }
+
+    /**
+     * Opens the hamburger drawer (Messages, Applicants, Manage Conflicts, etc). The icon carries
+     * no accessibilityLabel - confirmed via a live UI tree dump (LAW-881) - so it's reached by a
+     * fixed point tap instead of a real locator. Position matches the header icon's frame at the
+     * configured device/point-width (x=0,y=59,w=36,h=36 on the default iPhone 14 profile).
+     */
+    public HaDrawerScreen openMenu() {
+        tapPoint(18, 77);
+        return new HaDrawerScreen(driver);
+    }
 }

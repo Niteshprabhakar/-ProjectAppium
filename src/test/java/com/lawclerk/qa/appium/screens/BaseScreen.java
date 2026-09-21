@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Map;
 
 /**
  * Common helpers shared by all screen objects. Appium doesn't auto-wait like
@@ -57,6 +58,11 @@ public abstract class BaseScreen {
         }
     }
 
+    /** Immediate existence check, no wait - for deciding which of two states a screen is in. */
+    protected boolean exists(By locator) {
+        return !driver.findElements(locator).isEmpty();
+    }
+
     /** Clicks the element if it shows up within {@code timeout}; otherwise does nothing. */
     protected void clickIfPresent(By locator, Duration timeout) {
         try {
@@ -64,5 +70,15 @@ public abstract class BaseScreen {
         } catch (TimeoutException ignored) {
             // nothing to dismiss
         }
+    }
+
+    /**
+     * Taps a fixed point instead of an element. Only for controls with no accessibilityLabel and
+     * no other way to reach them (e.g. the HA dashboard's hamburger menu icon) - point coordinates
+     * don't survive a device/screen-size change the way an accessibility id does, so prefer a real
+     * locator whenever one exists.
+     */
+    protected void tapPoint(int x, int y) {
+        driver.executeScript("mobile: tap", Map.of("x", x, "y", y));
     }
 }
