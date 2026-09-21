@@ -39,4 +39,14 @@ public class HaDashboardScreen extends BaseScreen {
         click(APPLICANTS_TILE);
         return new HaApplicantsScreen(driver);
     }
+
+    // Real name confirmed via a live UI tree dump (LAW-881): a literal newline between the two
+    // words, not a space - "REVIEW" then a line break then "NOTIFICATIONS".
+    private static final By NOTIFICATIONS_TILE = AppiumBy.accessibilityId("REVIEW \nNOTIFICATIONS");
+
+    /** Opens the Notifications screen from its dashboard tile. */
+    public HaNotificationsScreen openNotifications() {
+        click(NOTIFICATIONS_TILE);
+        return new HaNotificationsScreen(driver);
+    }
 }

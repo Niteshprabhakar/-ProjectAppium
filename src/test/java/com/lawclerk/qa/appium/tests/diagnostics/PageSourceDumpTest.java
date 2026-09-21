@@ -90,6 +90,11 @@ class PageSourceDumpTest extends BaseTest {
     // (2) HaApplicantProfileScreen#goBack() tapping its coordinate before the screen had finished
     //     transitioning in - fixed by waiting for isLoaded() first.
 
+    // Notifications discovery (dashboard tile -> notification feed -> tap-clears-badge behavior)
+    // has been removed from here - those locators and findings are confirmed and now live in
+    // HaNotificationsScreen, exercised by HaNotificationsTest. See
+    // target/page-sources/ha-notification{s-screen,-tapped}.* for the original dumps/screenshots.
+
     private static void sleep(Duration duration) {
         try {
             Thread.sleep(duration.toMillis());
