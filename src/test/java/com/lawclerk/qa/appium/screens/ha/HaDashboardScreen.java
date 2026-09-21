@@ -31,4 +31,12 @@ public class HaDashboardScreen extends BaseScreen {
         tapPoint(18, 77);
         return new HaDrawerScreen(driver);
     }
+
+    private static final By APPLICANTS_TILE = AppiumBy.accessibilityId("APPLICANTS");
+
+    /** Opens the Applicants screen from its dashboard tile. */
+    public HaApplicantsScreen openApplicants() {
+        click(APPLICANTS_TILE);
+        return new HaApplicantsScreen(driver);
+    }
 }

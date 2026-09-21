@@ -76,6 +76,20 @@ class PageSourceDumpTest extends BaseTest {
     // target/page-sources/ha-{drawer-open,messaging-*,empty-send-*,reopen-*}.* for the original
     // dumps/screenshots if that history is ever needed again.
 
+    // Applicants/Assignments discovery (dashboard tile -> Opportunity Type -> Opportunity ->
+    // applicant list -> profile) has been removed from here - those locators and findings are
+    // confirmed and now live in HaApplicantsScreen/HaApplicantProfileScreen, exercised by
+    // HaApplicantsTest. Found along the way: LAW-976 (ASSIGN/DECLINE on the profile screen have no
+    // accessibility labels at all - same defect shape as LAW-975). See
+    // target/page-sources/ha-applicant{s-*,-profile}.* for the original dumps/screenshots.
+
+    // Both HaApplicantsTest failures were root-caused with one-off probes here, then removed:
+    // (1) "Test Push Ra App " gaining a real applicant between two checks in the same session -
+    //     data drift on a shared account, not a code bug - led to redesigning the empty-state test
+    //     to not depend on any specific opportunity staying empty.
+    // (2) HaApplicantProfileScreen#goBack() tapping its coordinate before the screen had finished
+    //     transitioning in - fixed by waiting for isLoaded() first.
+
     private static void sleep(Duration duration) {
         try {
             Thread.sleep(duration.toMillis());
